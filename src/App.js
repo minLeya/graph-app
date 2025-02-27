@@ -75,31 +75,48 @@ const GraphPathQuiz = () => {
     };
     
     return (
-        <div style={{ textAlign: "center", padding: "20px", backgroundColor: "#f4f4f9", minHeight: "100vh" }}>
-            <h1 style={{ fontSize: "26px", fontWeight: "bold", marginBottom: "15px", color: "#333" }}>Выберите вершины кратчайшего пути</h1>
-            <div style={{ display: "inline-block", padding: "20px", backgroundColor: "white", borderRadius: "10px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
-                <svg width={width} height={height} style={{ border: "2px solid #ddd", borderRadius: "8px" }}>
-                    {graph.links.map((link, index) => (
-                        <g key={index}>
-                            <line x1={graph.nodes[link.source].x} y1={graph.nodes[link.source].y}
-                                  x2={graph.nodes[link.target].x} y2={graph.nodes[link.target].y}
-                                  stroke="#666" strokeWidth={2} />
-                            <text x={(graph.nodes[link.source].x + graph.nodes[link.target].x) / 2}
-                                  y={(graph.nodes[link.source].y + graph.nodes[link.target].y) / 2 - 5}
-                                  fontSize="14" fill="#333" textAnchor="middle">{link.weight}</text>
-                        </g>
-                    ))}
-                    {graph.nodes.map((node) => (
-                        <g key={node.id} style={{ cursor: "pointer" }}>
-                            <circle cx={node.x} cy={node.y} r={22} onClick={() => handleClick(node.id)}
-                                    fill={node.id === 0 ? "#2ecc71" : node.id === 4 ? "#e74c3c" : (selectedPath.includes(node.id) ? "#f39c12" : "#3498db")}
-                                    stroke="#2c3e50" strokeWidth={2} />
-                            <text x={node.x} y={node.y} textAnchor="middle" dy={5} fontSize="16" fill="white" fontWeight="bold">{node.id}</text>
-                        </g>
-                    ))}
-                </svg>
+        <div style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
+            <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 20px", background: "#333", color: "white", borderRadius: "8px" }}>
+                <div>🔍 📊 ⚙️</div>
+                <div style={{ fontSize: "20px", fontWeight: "bold" }}>Графовые задачи</div>
+                <div>👤</div>
+            </header>
+
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "20px 0" }}>
+                <div style={{ fontSize: "18px" }}>Задание: 1/12</div>
+                <div style={{ fontSize: "20px", fontWeight: "bold" }}>Кратчайший путь</div>
+                <div style={{ fontSize: "18px" }}>⏳ Время: 00:30</div>
             </div>
-            <p style={{ fontSize: "20px", marginTop: "15px", color: "#2c3e50", fontWeight: "bold" }}>Баллы: {score}</p>
+
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div style={{ flex: "1" }}>
+                    <svg width={width} height={height} style={{ border: "1px solid gray", borderRadius: "8px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}>
+                        {graph.links.map((link, index) => (
+                            <g key={index}>
+                                <line x1={graph.nodes[link.source].x} y1={graph.nodes[link.source].y}
+                                      x2={graph.nodes[link.target].x} y2={graph.nodes[link.target].y}
+                                      stroke="black" strokeWidth={2} />
+                                <text x={(graph.nodes[link.source].x + graph.nodes[link.target].x) / 2}
+                                      y={(graph.nodes[link.source].y + graph.nodes[link.target].y) / 2 - 5}
+                                      fontSize="14" fill="black" textAnchor="middle">{link.weight}</text>
+                            </g>
+                        ))}
+                        {graph.nodes.map((node) => (
+                            <g key={node.id} style={{ cursor: "pointer" }}>
+                                <circle cx={node.x} cy={node.y} r={20} onClick={() => handleClick(node.id)}
+                                        fill={node.id === 0 ? "green" : node.id === 4 ? "red" : (selectedPath.includes(node.id) ? "orange" : "lightblue")}
+                                        stroke="black" strokeWidth={2} />
+                                <text x={node.x} y={node.y} textAnchor="middle" dy={5} fontSize="14" fill="white">{node.id}</text>
+                            </g>
+                        ))}
+                    </svg>
+                </div>
+                <div style={{ flex: "1", padding: "20px", background: "#f9f9f9", borderRadius: "8px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}>
+                    <h2>Описание задания</h2>
+                    <p>Выберите вершины кратчайшего пути от начальной до конечной точки, нажимая на них.</p>
+                    <p style={{ fontSize: "18px", fontWeight: "bold" }}>Баллы: {score}</p>
+                </div>
+            </div>
         </div>
     );
 };
