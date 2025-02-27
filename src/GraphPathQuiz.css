@@ -1,0 +1,62 @@
+/* GraphPathQuiz.css */
+.graph-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #333;
+    color: white;
+    border-radius: 8px;
+}
+
+.header-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.task-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    font-size: 18px;
+}
+
+.task-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.graph-layout {
+    display: flex;
+    justify-content: space-between;
+}
+
+.graph-box {
+    flex: 1;
+    border: 1px solid gray;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.task-description {
+    flex: 1;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.task-score {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.node {
+    cursor: pointer;
+}
