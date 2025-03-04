@@ -23,7 +23,7 @@ export default function AuthPage() {
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", backgroundColor: "#f3f3f3" }}>
       <div style={{ padding: "20px", width: "350px", backgroundColor: "white", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", borderRadius: "8px" }}>
         <h2 style={{ textAlign: "center", marginBottom: "16px" }}>
-          {isLogin ? "Вход в систему" : "Регистрация"}
+          {isLogin ? "Вход в систему!!" : "Регистрация"}
         </h2>
         {error && <p style={{ color: "red", fontSize: "14px", marginBottom: "12px" }}>{error}</p>}
         <input
