@@ -21,7 +21,7 @@ const AuthApp = () => {
         user_id: data.user.id,
         email,
       });
-      setMessage(profileError ? profileError.message : 'Регистрация успешна! Проверьте почту.');
+      setMessage(profileError ? profileError.message : 'Регистрация успешна! Проверьте почту.'); /* не выходит */
     }
   };
 
