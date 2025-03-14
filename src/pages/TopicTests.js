@@ -1,37 +1,43 @@
 import React from 'react';
 import { Card, CardContent, Typography, Container, Box } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
+import { testsData } from '../data/testsData';
 
 const topics = {
-  '1': 'Поиск пути с наименьшим числом рёбер',
-  '2': 'Поиск кратчайшего пути',
-  '3': 'Задача поиска самого длинного пути',
-  '4': 'Минимальное покрывающее дерево',
-  '5': 'Реберная раскраска графа',
-  '6': 'Вершинная раскраска графа'
+  'pathfinding': 'Поиск пути с наименьшим числом рёбер',
+  'shortestPath': 'Поиск кратчайшего пути',
+  'longestPath': 'Задача поиска самого длинного пути',
+  'spanningTree': 'Минимальное покрывающее дерево',
+  'edgeColoring': 'Реберная раскраска графа',
+  'vertexColoring': 'Вершинная раскраска графа'
 };
 
 const TopicTests = () => {
   const navigate = useNavigate();
   const { topicId } = useParams();
 
-  const tests = [
-    { id: 1, title: 'Тест №1' },
-    { id: 2, title: 'Тест №2' },
-    { id: 3, title: 'Тест №3' },
-    { id: 4, title: 'Тест №4' },
-    { id: 5, title: 'Тест №5' },
-    { id: 6, title: 'Тест №6' },
-  ];
+  // Получаем тесты для выбранной темы
+  const topicData = testsData[topicId];
+  const tests = topicData ? Object.values(topicData.tests) : [];
 
   const handleTestClick = (testId) => {
     navigate(`/topic/${topicId}/test/${testId}`);
   };
 
+  if (!topicData) {
+    return (
+      <Container sx={{ py: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom align="center">
+          Тема не найдена
+        </Typography>
+      </Container>
+    );
+  }
+
   return (
     <Container sx={{ py: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ mb: 4 }}>
-        {topics[topicId]}
+        {topicData.title}
       </Typography>
       <Typography variant="h5" component="h2" gutterBottom align="center" sx={{ mb: 4 }}>
         Выберите тест

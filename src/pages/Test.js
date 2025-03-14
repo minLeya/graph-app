@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box, Button, LinearProgress, Stack } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import GraphPathQuiz from '../components/GraphPathQuiz';
-import { getTestTasks, getTestInfo } from '../data/testsData';
+import TextQuestion from '../components/TextQuestion';
+import { getTestTasks, getTestInfo, TaskType } from '../data/testsData';
 
 const Test = () => {
   const { topicId, testId } = useParams();
@@ -82,10 +83,17 @@ const Test = () => {
         </Typography>
       </Box>
 
-      <GraphPathQuiz
-        task={currentTask}
-        onScoreUpdate={handleScoreUpdate}
-      />
+      {currentTask.type === TaskType.TEXT_QUESTION ? (
+        <TextQuestion
+          task={currentTask}
+          onScoreUpdate={handleScoreUpdate}
+        />
+      ) : (
+        <GraphPathQuiz
+          task={currentTask}
+          onScoreUpdate={handleScoreUpdate}
+        />
+      )}
 
       <Stack 
         direction="row" 

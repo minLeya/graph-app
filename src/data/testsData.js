@@ -1,195 +1,570 @@
-// Графы для разных типов заданий
-const graphs = {
-  shortPath1: {
-    nodes: [
-      { id: 0, x: 100, y: 200 },
-      { id: 1, x: 250, y: 100 },
-      { id: 2, x: 400, y: 200 },
-      { id: 3, x: 250, y: 300 },
-      { id: 4, x: 550, y: 200 }
-    ],
-    links: [
-      { source: 0, target: 1, weight: 2 },
-      { source: 1, target: 2, weight: 2 },
-      { source: 2, target: 4, weight: 3 },
-      { source: 0, target: 3, weight: 4 },
-      { source: 3, target: 4, weight: 5 }
-    ]
-  },
-  shortPath2: {
-    nodes: [
-      { id: 0, x: 100, y: 200 },
-      { id: 1, x: 200, y: 100 },
-      { id: 2, x: 300, y: 200 },
-      { id: 3, x: 200, y: 300 },
-      { id: 4, x: 400, y: 150 },
-      { id: 5, x: 500, y: 200 }
-    ],
-    links: [
-      { source: 0, target: 1, weight: 3 },
-      { source: 1, target: 2, weight: 1 },
-      { source: 2, target: 4, weight: 2 },
-      { source: 0, target: 3, weight: 2 },
-      { source: 3, target: 2, weight: 3 },
-      { source: 4, target: 5, weight: 1 }
-    ]
-  },
-  colorGraph1: {
-    nodes: [
-      { id: 0, x: 200, y: 200 },
-      { id: 1, x: 300, y: 200 },
-      { id: 2, x: 250, y: 100 },
-      { id: 3, x: 250, y: 300 }
-    ],
-    links: [
-      { source: 0, target: 1 },
-      { source: 0, target: 2 },
-      { source: 0, target: 3 },
-      { source: 1, target: 2 },
-      { source: 1, target: 3 }
-    ]
-  }
+import { graphs, GraphType } from './graphs';
+
+// Типы заданий
+export const TaskType = {
+    TEXT_QUESTION: 'TEXT_QUESTION',
+    GRAPH_PATH: 'GRAPH_PATH',
+    GRAPH_SHORTEST_PATH: 'GRAPH_SHORTEST_PATH',
+    GRAPH_LONGEST_PATH: 'GRAPH_LONGEST_PATH',
+    GRAPH_SPANNING_TREE: 'GRAPH_SPANNING_TREE',
+    GRAPH_EDGE_COLORING: 'GRAPH_EDGE_COLORING',
 };
 
-// Структура всех тестов
+// Структура тестов
 export const testsData = {
-  '1': { // ID темы "Поиск пути с наименьшим числом рёбер"
-    '1': { // ID теста
-      title: 'Тест №1',
-      tasks: [
-        {
-          id: 1,
-          type: 'shortestEdgePath',
-          title: 'Поиск пути с минимальным количеством рёбер',
-          description: 'Найдите путь от начальной до конечной вершины, используя минимальное количество рёбер.',
-          graph: graphs.shortPath1,
-          startNode: 0,
-          endNode: 4
-        },
-        {
-          id: 2,
-          type: 'shortestEdgePath',
-          title: 'Поиск альтернативного пути',
-          description: 'Найдите другой путь от начальной до конечной вершины с минимальным количеством рёбер.',
-          graph: graphs.shortPath2,
-          startNode: 0,
-          endNode: 5
-        },
-        {
-          id: 3,
-          type: 'shortestEdgePath',
-          title: 'Сложный маршрут',
-          description: 'Найдите оптимальный путь в более сложном графе.',
-          graph: {
-            nodes: [
-              { id: 0, x: 100, y: 200 },
-              { id: 1, x: 200, y: 100 },
-              { id: 2, x: 300, y: 200 },
-              { id: 3, x: 200, y: 300 },
-              { id: 4, x: 400, y: 150 },
-              { id: 5, x: 400, y: 250 },
-              { id: 6, x: 500, y: 200 }
-            ],
-            links: [
-              { source: 0, target: 1 },
-              { source: 1, target: 2 },
-              { source: 2, target: 4 },
-              { source: 0, target: 3 },
-              { source: 3, target: 2 },
-              { source: 4, target: 6 },
-              { source: 5, target: 6 },
-              { source: 2, target: 5 }
-            ]
-          },
-          startNode: 0,
-          endNode: 6
+    pathfinding: {
+        id: 'pathfinding',
+        title: 'Поиск пути с наименьшим числом рёбер',
+        tests: {
+            test1: {
+                id: 'test1',
+                title: 'Тест 1: Основы поиска путей',
+                description: 'Базовые задачи на поиск пути в графе',
+                tasks: [
+                    {
+                        id: 1,
+                        type: TaskType.TEXT_QUESTION,
+                        title: 'Теоретический вопрос',
+                        description: 'Что такое путь в ориентированном графе?',
+                        options: [
+                            'Последовательность вершин, соединенных ребрами',
+                            'Последовательность вершин, соединенных дугами в соответствии с их направлением',
+                            'Любая последовательность вершин',
+                            'Замкнутая последовательность вершин'
+                        ],
+                        correctAnswer: 1,
+                        maxScore: 5
+                    },
+                    {
+                        id: 2,
+                        type: TaskType.GRAPH_PATH,
+                        title: 'Найдите путь из вершины A в вершину F',
+                        description: 'Найдите любой путь из вершины A в вершину F, проходящий через наименьшее количество рёбер',
+                        graphId: 'pathFinding.simple1',
+                        startNode: '1',
+                        endNode: '6',
+                        maxScore: 10
+                    }
+                ]
+            },
+            test2: {
+                id: 'test2',
+                title: 'Тест 2: Сложные пути',
+                description: 'Задачи повышенной сложности на поиск путей',
+                tasks: [
+                    {
+                        id: 1,
+                        type: TaskType.GRAPH_PATH,
+                        title: 'Найдите путь в сложном графе',
+                        description: 'Найдите путь из вершины A в вершину H с наименьшим количеством рёбер',
+                        graphId: 'pathFinding.medium1',
+                        startNode: '1',
+                        endNode: '8',
+                        maxScore: 15
+                    },
+                    {
+                        id: 2,
+                        type: TaskType.GRAPH_PATH,
+                        title: 'Сложный маршрут',
+                        description: 'Найдите путь из вершины B в вершину J, используя минимальное количество рёбер',
+                        graphId: 'pathFinding.hard1',
+                        startNode: '2',
+                        endNode: '10',
+                        maxScore: 20
+                    },
+                    {
+                        id: 3,
+                        type: TaskType.TEXT_QUESTION,
+                        title: 'Анализ алгоритма',
+                        description: 'Какой алгоритм лучше всего подходит для поиска пути с наименьшим числом рёбер?',
+                        options: [
+                            'Алгоритм Дейкстры',
+                            'Поиск в глубину (DFS)',
+                            'Поиск в ширину (BFS)',
+                            'Алгоритм Флойда-Уоршелла'
+                        ],
+                        correctAnswer: 2,
+                        maxScore: 10
+                    }
+                ]
+            }
         }
-      ]
     },
-    '2': {
-      title: 'Тест №2',
-      tasks: [
-        // Другой набор из 3 заданий
-      ]
-    }
-  },
-  '2': { // ID темы "Поиск кратчайшего пути"
-    '1': {
-      title: 'Тест №1',
-      tasks: [
-        {
-          id: 1,
-          type: 'dijkstra',
-          title: 'Поиск кратчайшего пути',
-          description: 'Найдите кратчайший путь от начальной до конечной вершины, учитывая веса рёбер.',
-          graph: graphs.shortPath1,
-          startNode: 0,
-          endNode: 4
-        },
-        {
-          id: 2,
-          type: 'dijkstra',
-          title: 'Сложный маршрут с весами',
-          description: 'Найдите кратчайший путь в графе с разными весами рёбер.',
-          graph: graphs.shortPath2,
-          startNode: 0,
-          endNode: 5
-        },
-        {
-          id: 3,
-          type: 'dijkstra',
-          title: 'Оптимальный маршрут',
-          description: 'Определите оптимальный путь с учетом всех весов.',
-          graph: {
-            nodes: [
-              { id: 0, x: 100, y: 200 },
-              { id: 1, x: 200, y: 100 },
-              { id: 2, x: 300, y: 200 },
-              { id: 3, x: 200, y: 300 },
-              { id: 4, x: 400, y: 100 },
-              { id: 5, x: 400, y: 300 },
-              { id: 6, x: 500, y: 200 }
-            ],
-            links: [
-              { source: 0, target: 1, weight: 2 },
-              { source: 1, target: 2, weight: 3 },
-              { source: 2, target: 4, weight: 1 },
-              { source: 0, target: 3, weight: 1 },
-              { source: 3, target: 2, weight: 2 },
-              { source: 4, target: 6, weight: 4 },
-              { source: 5, target: 6, weight: 2 },
-              { source: 2, target: 5, weight: 3 }
-            ]
-          },
-          startNode: 0,
-          endNode: 6
+    shortestPath: {
+        id: 'shortestPath',
+        title: 'Поиск кратчайшего пути',
+        tests: {
+            test1: {
+                id: 'test1',
+                title: 'Тест 1: Алгоритм Дейкстры',
+                description: 'Базовые задачи на поиск кратчайшего пути',
+                tasks: [
+                    {
+                        id: 1,
+                        type: TaskType.TEXT_QUESTION,
+                        title: 'Теория кратчайших путей',
+                        description: 'Для каких графов применим алгоритм Дейкстры?',
+                        options: [
+                            'Только для неориентированных графов',
+                            'Для любых графов с неотрицательными весами рёбер',
+                            'Только для графов без циклов',
+                            'Для любых графов, включая графы с отрицательными весами'
+                        ],
+                        correctAnswer: 1,
+                        maxScore: 5
+                    },
+                    {
+                        id: 2,
+                        type: TaskType.GRAPH_SHORTEST_PATH,
+                        title: 'Поиск кратчайшего пути',
+                        description: 'Найдите кратчайший путь от вершины A до вершины F',
+                        graphId: 'shortestPath.simple1',
+                        startNode: '1',
+                        endNode: '6',
+                        maxScore: 10
+                    }
+                ]
+            },
+            test2: {
+                id: 'test2',
+                title: 'Тест 2: Сложные маршруты',
+                description: 'Задачи повышенной сложности на поиск кратчайшего пути',
+                tasks: [
+                    {
+                        id: 1,
+                        type: TaskType.GRAPH_SHORTEST_PATH,
+                        title: 'Кратчайший путь в сложном графе',
+                        description: 'Найдите кратчайший путь от A до H',
+                        graphId: 'shortestPath.medium1',
+                        startNode: '1',
+                        endNode: '8',
+                        maxScore: 15
+                    },
+                    {
+                        id: 2,
+                        type: TaskType.GRAPH_SHORTEST_PATH,
+                        title: 'Сложная маршрутизация',
+                        description: 'Найдите кратчайший путь от B до J',
+                        graphId: 'shortestPath.hard1',
+                        startNode: '2',
+                        endNode: '10',
+                        maxScore: 20
+                    }
+                ]
+            }
         }
-      ]
+    },
+    longestPath: {
+        id: 'longestPath',
+        title: 'Задача поиска самого длинного пути',
+        tests: {
+            test1: {
+                id: 'test1',
+                title: 'Тест 1: Основы поиска длиннейшего пути',
+                description: 'Базовые задачи на поиск самого длинного пути',
+                tasks: [
+                    {
+                        id: 1,
+                        type: TaskType.TEXT_QUESTION,
+                        title: 'Теория длиннейших путей',
+                        description: 'В чём основная сложность поиска длиннейшего пути в графе?',
+                        options: [
+                            'Алгоритм всегда работает очень медленно',
+                            'Задача является NP-полной для общего случая',
+                            'Требуется много памяти',
+                            'Алгоритм может зациклиться'
+                        ],
+                        correctAnswer: 1,
+                        maxScore: 5
+                    },
+                    {
+                        id: 2,
+                        type: TaskType.GRAPH_LONGEST_PATH,
+                        title: 'Поиск длиннейшего пути',
+                        description: 'Найдите самый длинный путь от A до F',
+                        graphId: 'longestPath.simple1',
+                        startNode: '1',
+                        endNode: '6',
+                        maxScore: 10
+                    }
+                ]
+            },
+            test2: {
+                id: 'test2',
+                title: 'Тест 2: Сложные задачи',
+                description: 'Задачи повышенной сложности на поиск длиннейшего пути',
+                tasks: [
+                    {
+                        id: 1,
+                        type: TaskType.GRAPH_LONGEST_PATH,
+                        title: 'Длиннейший путь в сложном графе',
+                        description: 'Найдите самый длинный путь от A до H',
+                        graphId: 'longestPath.medium1',
+                        startNode: '1',
+                        endNode: '8',
+                        maxScore: 15
+                    },
+                    {
+                        id: 2,
+                        type: TaskType.GRAPH_LONGEST_PATH,
+                        title: 'Сложный маршрут',
+                        description: 'Найдите самый длинный путь от B до J',
+                        graphId: 'longestPath.hard1',
+                        startNode: '2',
+                        endNode: '10',
+                        maxScore: 20
+                    }
+                ]
+            }
+        }
+    },
+    spanningTree: {
+        id: 'spanningTree',
+        title: 'Минимальное покрывающее дерево',
+        tests: {
+            test1: {
+                id: 'test1',
+                title: 'Тест 1: Алгоритм Прима',
+                description: 'Базовые задачи на построение минимального остовного дерева',
+                tasks: [
+                    {
+                        id: 1,
+                        type: TaskType.TEXT_QUESTION,
+                        title: 'Теория остовных деревьев',
+                        description: 'Что такое остовное дерево графа?',
+                        options: [
+                            'Любой связный подграф',
+                            'Дерево, содержащее все вершины исходного графа',
+                            'Граф без циклов',
+                            'Полный граф'
+                        ],
+                        correctAnswer: 1,
+                        maxScore: 5
+                    },
+                    {
+                        id: 2,
+                        type: TaskType.GRAPH_SPANNING_TREE,
+                        title: 'Построение MST',
+                        description: 'Постройте минимальное остовное дерево для графа с 6 вершинами',
+                        graphId: 'spanningTree.simple1',
+                        maxScore: 10
+                    }
+                ]
+            },
+            test2: {
+                id: 'test2',
+                title: 'Тест 2: Сложные случаи',
+                description: 'Задачи повышенной сложности на построение MST',
+                tasks: [
+                    {
+                        id: 1,
+                        type: TaskType.GRAPH_SPANNING_TREE,
+                        title: 'MST в сложном графе',
+                        description: 'Постройте минимальное остовное дерево в графе с 8 вершинами',
+                        graphId: 'spanningTree.medium1',
+                        maxScore: 15
+                    },
+                    {
+                        id: 2,
+                        type: TaskType.GRAPH_SPANNING_TREE,
+                        title: 'Большое MST',
+                        description: 'Постройте минимальное остовное дерево в графе с 10 вершинами',
+                        graphId: 'spanningTree.hard1',
+                        maxScore: 20
+                    }
+                ]
+            }
+        }
+    },
+    edgeColoring: {
+        id: 'edgeColoring',
+        title: 'Реберная раскраска графа',
+        tests: {
+            test1: {
+                id: 'test1',
+                title: 'Тест 1: Основы реберной раскраски',
+                description: 'Базовые задачи на реберную раскраску',
+                tasks: [
+                    {
+                        id: 1,
+                        type: TaskType.TEXT_QUESTION,
+                        title: 'Теория реберной раскраски',
+                        description: 'Что такое хроматический индекс графа?',
+                        options: [
+                            'Минимальное число цветов для раскраски вершин',
+                            'Минимальное число цветов для раскраски рёбер',
+                            'Количество рёбер в графе',
+                            'Количество различных цветов в графе'
+                        ],
+                        correctAnswer: 1,
+                        maxScore: 5
+                    },
+                    {
+                        id: 2,
+                        type: TaskType.GRAPH_EDGE_COLORING,
+                        title: 'Реберная раскраска',
+                        description: 'Раскрасьте рёбра графа с 6 вершинами минимальным количеством цветов',
+                        graphId: 'coloring.simple1',
+                        maxScore: 10
+                    }
+                ]
+            },
+            test2: {
+                id: 'test2',
+                title: 'Тест 2: Сложные раскраски',
+                description: 'Задачи повышенной сложности на реберную раскраску',
+                tasks: [
+                    {
+                        id: 1,
+                        type: TaskType.GRAPH_EDGE_COLORING,
+                        title: 'Раскраска среднего графа',
+                        description: 'Выполните реберную раскраску графа с 8 вершинами',
+                        graphId: 'coloring.medium1',
+                        maxScore: 15
+                    },
+                    {
+                        id: 2,
+                        type: TaskType.GRAPH_EDGE_COLORING,
+                        title: 'Сложная раскраска',
+                        description: 'Раскрасьте рёбра графа с 10 вершинами',
+                        graphId: 'coloring.hard1',
+                        maxScore: 20
+                    }
+                ]
+            }
+        }
+    },
+    vertexColoring: {
+        id: 'vertexColoring',
+        title: 'Вершинная раскраска графа',
+        tests: {
+            test1: {
+                id: 'test1',
+                title: 'Тест 1: Основы вершинной раскраски',
+                tasks: []
+            }
+        }
     }
-  },
-  '5': { // ID темы "Реберная раскраска графа"
-    '1': {
-      title: 'Тест №1',
-      tasks: [
-        {
-          id: 1,
-          type: 'edgeColoring',
-          title: 'Простая раскраска рёбер',
-          description: 'Раскрасьте рёбра графа минимальным количеством цветов так, чтобы рёбра одного цвета не имели общих вершин.',
-          graph: graphs.colorGraph1
-        },
-        // Добавьте ещё 2 задания
-      ]
-    }
-  }
 };
 
-// Функция для получения заданий конкретного теста
+// Вспомогательные функции
 export const getTestTasks = (topicId, testId) => {
-  return testsData[topicId]?.[testId]?.tasks || [];
+    return testsData[topicId]?.tests[testId]?.tasks || [];
 };
 
-// Функция для получения информации о тесте
 export const getTestInfo = (topicId, testId) => {
-  return testsData[topicId]?.[testId] || null;
+    return testsData[topicId]?.tests[testId] || null;
+};
+
+export const getGraph = (graphId) => {
+    const [category, id] = graphId.split('.');
+    const graphs = graphsData[category];
+    return graphs ? graphs[id] : null;
+};
+
+// Данные графов
+export const graphsData = {
+    pathFinding: {
+        simple1: {
+            type: GraphType.DIRECTED_UNWEIGHTED,
+            vertices: ['A', 'B', 'C', 'D', 'E', 'F'],
+            edges: [
+                { from: 'A', to: 'B' },
+                { from: 'B', to: 'C' },
+                { from: 'C', to: 'D' },
+                { from: 'D', to: 'E' },
+                { from: 'B', to: 'E' },
+                { from: 'C', to: 'F' },
+                { from: 'E', to: 'F' },
+            ],
+        },
+        medium1: {
+            type: GraphType.DIRECTED_UNWEIGHTED,
+            vertices: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+            edges: [
+                { from: 'A', to: 'B' },
+                { from: 'B', to: 'C' },
+                { from: 'C', to: 'D' },
+                { from: 'D', to: 'E' },
+                { from: 'B', to: 'F' },
+                { from: 'C', to: 'F' },
+                { from: 'D', to: 'G' },
+                { from: 'E', to: 'H' },
+                { from: 'F', to: 'G' },
+                { from: 'G', to: 'H' },
+                { from: 'F', to: 'H' },
+            ],
+        },
+        hard1: {
+            type: GraphType.DIRECTED_UNWEIGHTED,
+            vertices: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+            edges: [
+                { from: 'A', to: 'B' },
+                { from: 'B', to: 'C' },
+                { from: 'C', to: 'D' },
+                { from: 'D', to: 'E' },
+                { from: 'B', to: 'F' },
+                { from: 'C', to: 'G' },
+                { from: 'D', to: 'H' },
+                { from: 'E', to: 'I' },
+                { from: 'F', to: 'G' },
+                { from: 'G', to: 'H' },
+                { from: 'H', to: 'I' },
+                { from: 'F', to: 'J' },
+                { from: 'G', to: 'J' },
+                { from: 'I', to: 'J' },
+            ],
+        },
+    },
+    shortestPath: {
+        simple1: {
+            type: GraphType.DIRECTED_WEIGHTED,
+            vertices: ['A', 'B', 'C', 'D', 'E', 'F'],
+            edges: [
+                { from: 'A', to: 'B', weight: 2 },
+                { from: 'B', to: 'C', weight: 3 },
+                { from: 'C', to: 'D', weight: 1 },
+                { from: 'D', to: 'E', weight: 4 },
+                { from: 'B', to: 'E', weight: 6 },
+                { from: 'C', to: 'F', weight: 2 },
+                { from: 'E', to: 'F', weight: 1 },
+            ],
+        },
+        medium1: {
+            type: GraphType.DIRECTED_WEIGHTED,
+            vertices: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+            edges: [
+                { from: 'A', to: 'B', weight: 4 },
+                { from: 'B', to: 'C', weight: 2 },
+                { from: 'C', to: 'D', weight: 3 },
+                { from: 'D', to: 'E', weight: 1 },
+                { from: 'B', to: 'F', weight: 5 },
+                { from: 'C', to: 'F', weight: 2 },
+                { from: 'D', to: 'G', weight: 6 },
+                { from: 'E', to: 'H', weight: 4 },
+                { from: 'F', to: 'G', weight: 3 },
+                { from: 'G', to: 'H', weight: 2 },
+                { from: 'F', to: 'H', weight: 7 },
+            ],
+        },
+        hard1: {
+            type: GraphType.DIRECTED_WEIGHTED,
+            vertices: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+            edges: [
+                { from: 'A', to: 'B', weight: 3 },
+                { from: 'B', to: 'C', weight: 4 },
+                { from: 'C', to: 'D', weight: 2 },
+                { from: 'D', to: 'E', weight: 5 },
+                { from: 'B', to: 'F', weight: 6 },
+                { from: 'C', to: 'G', weight: 3 },
+                { from: 'D', to: 'H', weight: 4 },
+                { from: 'E', to: 'I', weight: 2 },
+                { from: 'F', to: 'G', weight: 5 },
+                { from: 'G', to: 'H', weight: 3 },
+                { from: 'H', to: 'I', weight: 6 },
+                { from: 'F', to: 'J', weight: 4 },
+                { from: 'G', to: 'J', weight: 7 },
+                { from: 'I', to: 'J', weight: 2 },
+            ],
+        },
+    },
+    longestPath: {
+        simple1: {
+            type: GraphType.DIRECTED_WEIGHTED,
+            vertices: ['A', 'B', 'C', 'D', 'E', 'F'],
+            edges: [
+                { from: 'A', to: 'B', weight: 5 },
+                { from: 'B', to: 'C', weight: 3 },
+                { from: 'C', to: 'D', weight: 4 },
+                { from: 'D', to: 'E', weight: 2 },
+                { from: 'B', to: 'E', weight: 6 },
+                { from: 'C', to: 'F', weight: 4 },
+                { from: 'E', to: 'F', weight: 3 },
+            ],
+        },
+        medium1: {
+            type: GraphType.DIRECTED_WEIGHTED,
+            vertices: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+            edges: [
+                { from: 'A', to: 'B', weight: 4 },
+                { from: 'B', to: 'C', weight: 5 },
+                { from: 'C', to: 'D', weight: 3 },
+                { from: 'D', to: 'E', weight: 6 },
+                { from: 'B', to: 'F', weight: 4 },
+                { from: 'C', to: 'F', weight: 5 },
+                { from: 'D', to: 'G', weight: 3 },
+                { from: 'E', to: 'H', weight: 4 },
+                { from: 'F', to: 'G', weight: 5 },
+                { from: 'G', to: 'H', weight: 6 },
+                { from: 'F', to: 'H', weight: 4 },
+            ],
+        },
+    },
+    spanningTree: {
+        simple1: {
+            type: GraphType.UNDIRECTED_WEIGHTED,
+            vertices: ['A', 'B', 'C', 'D', 'E', 'F'],
+            edges: [
+                { from: 'A', to: 'B', weight: 2 },
+                { from: 'B', to: 'C', weight: 3 },
+                { from: 'C', to: 'D', weight: 1 },
+                { from: 'D', to: 'E', weight: 4 },
+                { from: 'E', to: 'F', weight: 2 },
+                { from: 'F', to: 'A', weight: 5 },
+                { from: 'B', to: 'E', weight: 3 },
+                { from: 'C', to: 'F', weight: 4 },
+            ],
+        },
+        medium1: {
+            type: GraphType.UNDIRECTED_WEIGHTED,
+            vertices: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+            edges: [
+                { from: 'A', to: 'B', weight: 4 },
+                { from: 'B', to: 'C', weight: 2 },
+                { from: 'C', to: 'D', weight: 5 },
+                { from: 'D', to: 'E', weight: 3 },
+                { from: 'E', to: 'F', weight: 4 },
+                { from: 'F', to: 'G', weight: 2 },
+                { from: 'G', to: 'H', weight: 3 },
+                { from: 'H', to: 'A', weight: 5 },
+                { from: 'B', to: 'F', weight: 4 },
+                { from: 'C', to: 'G', weight: 3 },
+                { from: 'D', to: 'H', weight: 2 },
+            ],
+        },
+    },
+    edgeColoring: {
+        simple1: {
+            type: GraphType.UNDIRECTED_UNWEIGHTED,
+            vertices: ['A', 'B', 'C', 'D', 'E', 'F'],
+            edges: [
+                { from: 'A', to: 'B' },
+                { from: 'B', to: 'C' },
+                { from: 'C', to: 'D' },
+                { from: 'D', to: 'E' },
+                { from: 'E', to: 'F' },
+                { from: 'F', to: 'A' },
+                { from: 'B', to: 'E' },
+                { from: 'C', to: 'F' },
+            ],
+        },
+        medium1: {
+            type: GraphType.UNDIRECTED_UNWEIGHTED,
+            vertices: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+            edges: [
+                { from: 'A', to: 'B' },
+                { from: 'B', to: 'C' },
+                { from: 'C', to: 'D' },
+                { from: 'D', to: 'E' },
+                { from: 'E', to: 'F' },
+                { from: 'F', to: 'G' },
+                { from: 'G', to: 'H' },
+                { from: 'H', to: 'A' },
+                { from: 'A', to: 'E' },
+                { from: 'B', to: 'F' },
+                { from: 'C', to: 'G' },
+                { from: 'D', to: 'H' },
+            ],
+        },
+    },
 }; 

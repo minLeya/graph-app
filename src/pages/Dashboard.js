@@ -1,73 +1,45 @@
 import React from 'react';
-import { Container, Typography, Card, CardContent, CardHeader, CardActionArea, AppBar, Toolbar, IconButton, Box } from '@mui/material';
+import { Container, Typography, Card, CardContent, CardHeader, CardActionArea, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { testsData } from '../data/testsData';
 
 const testCards = [
   {
+    id: 'pathfinding',
     title: 'Поиск пути с наименьшим числом рёбер',
-    description: 'Задача состоит в том, чтобы найти путь между двумя вершинами, используя как можно меньше рёбер, не учитывая их длину.',
-    path: '/topic/1/tests'
+    description: 'Задача состоит в том, чтобы найти путь между двумя вершинами, используя как можно меньше рёбер, не учитывая их длину.'
   },
   {
+    id: 'shortestPath',
     title: 'Поиск кратчайшего пути',
-    description: 'Задача — найти кратчайший путь между двумя вершинами, учитывая длину (вес) рёбер на пути.',
-    path: '/topic/2/tests'
+    description: 'Задача — найти кратчайший путь между двумя вершинами, учитывая длину (вес) рёбер на пути.'
   },
   {
+    id: 'longestPath',
     title: 'Задача поиска самого длинного пути',
-    description: 'Задача заключается в поиске пути с максимальной длиной (весом), проходящего между двумя вершинами.',
-    path: '/topic/3/tests'
+    description: 'Задача заключается в поиске пути с максимальной длиной (весом), проходящего между двумя вершинами.'
   },
   {
+    id: 'spanningTree',
     title: 'Минимальное покрывающее дерево',
-    description: 'Задача — построить дерево, соединяющее все вершины графа с минимальными затратами, чтобы не было циклов.',
-    path: '/topic/4/tests'
+    description: 'Задача — построить дерево, соединяющее все вершины графа с минимальными затратами, чтобы не было циклов.'
   },
   {
+    id: 'edgeColoring',
     title: 'Реберная раскраска графа',
-    description: 'Задача — раскрасить рёбра графа, чтобы рёбра, встречающиеся в одной вершине, не имели одинаковый цвет.',
-    path: '/topic/5/tests'
+    description: 'Задача — раскрасить рёбра графа, чтобы рёбра, встречающиеся в одной вершине, не имели одинаковый цвет.'
   },
   {
+    id: 'vertexColoring',
     title: 'Вершинная раскраска графа',
-    description: 'Задача — раскрасить вершины графа, чтобы никакие две соседние вершины не имели одинакового цвета.',
-    path: '/topic/6/tests'
+    description: 'Задача — раскрасить вершины графа, чтобы никакие две соседние вершины не имели одинакового цвета.'
   }
 ];
 
-const Header = () => {
-  return (
-    <AppBar position="static" sx={{ width: '100%', backgroundColor: 'black' }}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="h6">
-          GraphSolver
-        </Typography>
-        <IconButton color="inherit">
-          <svg
-            id="Layer_2"
-            viewBox="0 0 32 32"
-            xmlns="http://www.w3.org/2000/svg"
-            data-name="Layer 2"
-            width="24"
-            height="24"
-            fill="currentColor"
-          >
-            <g fill="rgb(255,255,255)">
-              <path d="m16 14a6.5 6.5 0 1 0 -6.5-6.5 6.508 6.508 0 0 0 6.5 6.5zm0-11a4.5 4.5 0 1 1 -4.5 4.5 4.505 4.505 0 0 1 4.5-4.5z"/>
-              <path d="m15.991 15a13.005 13.005 0 0 0 -12.991 12.99v2.01a1 1 0 0 0 2 0v-2.01a10.991 10.991 0 0 1 21.981 0v1.01h-18.981a1 1 0 0 0 0 2h19.981a1 1 0 0 0 1-1v-2.01a13 13 0 0 0 -12.99-12.99z"/>
-            </g>
-          </svg>
-        </IconButton>
-      </Toolbar>
-    </AppBar>
-  );
-};
-
 const Dashboard = () => {
   return (
-    <Container>
-      <Header />
-      <Typography variant="h4" gutterBottom align="center" sx={{ mt: 4, mb: 4 }}>
+    <Container maxWidth={false} sx={{ px: { xs: 2, sm: 3, md: 4 }, py: 4 }}>
+      <Typography variant="h4" gutterBottom align="center" sx={{ mb: 4 }}>
         GraphSolver
       </Typography>
       <Box
@@ -78,12 +50,14 @@ const Dashboard = () => {
             sm: 'repeat(2, 1fr)',
             md: 'repeat(3, 1fr)'
           },
-          gap: 3
+          gap: 3,
+          maxWidth: '1600px',
+          mx: 'auto'
         }}
       >
-        {testCards.map((test, index) => (
+        {testCards.map((test) => (
           <Card 
-            key={index} 
+            key={test.id} 
             sx={{ 
               height: '100%', 
               display: 'flex', 
@@ -92,7 +66,7 @@ const Dashboard = () => {
           >
             <CardActionArea 
               component={Link} 
-              to={test.path} 
+              to={`/topic/${test.id}/tests`}
               sx={{ 
                 height: '100%',
                 textDecoration: 'none', 

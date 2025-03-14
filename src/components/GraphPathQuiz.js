@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Paper, Typography } from '@mui/material';
+import { getGraph } from '../data/graphs';
 import './GraphPathQuiz.css';
 
 const GraphPathQuiz = ({ task, onScoreUpdate }) => {
@@ -8,7 +9,8 @@ const GraphPathQuiz = ({ task, onScoreUpdate }) => {
     const [score, setScore] = useState(0);
     const [isCompleted, setIsCompleted] = useState(false);
 
-    const { graph, startNode, endNode } = task;
+    const graph = getGraph(task.graphId);
+    const { startNode, endNode } = task;
 
     useEffect(() => {
         setSelectedPath([]);
@@ -16,10 +18,18 @@ const GraphPathQuiz = ({ task, onScoreUpdate }) => {
         setIsCompleted(false);
     }, [task]);
 
+    if (!graph || !graph.nodes || !graph.edges) {
+        return (
+            <Typography variant="h6" align="center" color="error">
+                Ошибка загрузки графа: граф не найден или имеет неверную структуру
+            </Typography>
+        );
+    }
+
     function findCorrectPath() {
-        if (task.type === 'dijkstra') {
+        if (task.type === 'GRAPH_SHORTEST_PATH') {
             return dijkstra(graph, startNode, endNode);
-        } else if (task.type === 'shortestEdgePath') {
+        } else if (task.type === 'GRAPH_PATH') {
             return bfs(graph, startNode, endNode);
         }
         return [];
@@ -40,10 +50,10 @@ const GraphPathQuiz = ({ task, onScoreUpdate }) => {
 
             if (u === end) break;
 
-            graph.links.forEach(link => {
-                if (link.source === u || link.target === u) {
-                    let neighbor = link.source === u ? link.target : link.source;
-                    let alt = distances[u] + link.weight;
+            graph.edges.forEach(edge => {
+                if (edge.source === u || edge.target === u) {
+                    let neighbor = edge.source === u ? edge.target : edge.source;
+                    let alt = distances[u] + (edge.weight || 1);
                     if (alt < distances[neighbor]) {
                         distances[neighbor] = alt;
                         prev[neighbor] = u;
@@ -62,149 +72,145 @@ const GraphPathQuiz = ({ task, onScoreUpdate }) => {
     }
 
     function bfs(graph, start, end) {
-        let queue = [[start]], visited = new Set([start]);
-        
+        let queue = [[start]];
+        let visited = new Set();
+
         while (queue.length > 0) {
             let path = queue.shift();
             let node = path[path.length - 1];
-            
+
             if (node === end) {
                 return path;
             }
-            
-            graph.links
-                .filter(link => link.source === node || link.target === node)
-                .forEach(link => {
-                    let next = link.source === node ? link.target : link.source;
-                    if (!visited.has(next)) {
-                        visited.add(next);
-                        queue.push([...path, next]);
+
+            if (!visited.has(node)) {
+                visited.add(node);
+
+                let neighbors = graph.edges
+                    .filter(edge => edge.source === node || edge.target === node)
+                    .map(edge => edge.source === node ? edge.target : edge.source);
+
+                for (let neighbor of neighbors) {
+                    if (!visited.has(neighbor)) {
+                        queue.push([...path, neighbor]);
                     }
-                });
+                }
+            }
         }
         return [];
     }
 
-    const correctPath = findCorrectPath();
+    const handleClick = (nodeId) => {
+        if (isCompleted) return;
 
-    const handleClick = (id) => {
-        if (isCompleted || selectedPath.includes(id)) return;
+        const lastNode = selectedPath[selectedPath.length - 1];
+        
+        // Если это первый выбор или узел соединен с последним выбранным
+        if (selectedPath.length === 0 || isConnected(lastNode, nodeId)) {
+            const newPath = [...selectedPath, nodeId];
+            setSelectedPath(newPath);
 
-        const lastNode = selectedPath[selectedPath.length - 1] ?? startNode;
-        const isNeighbor = graph.links.some(link =>
-            (link.source === lastNode && link.target === id) ||
-            (link.target === lastNode && link.source === id)
-        );
-
-        if (!isNeighbor && selectedPath.length > 0) return;
-
-        const newPath = [...selectedPath, id];
-        setSelectedPath(newPath);
-
-        // Проверяем правильность пути до текущей точки
-        let isCorrectSoFar = true;
-        for (let i = 0; i < newPath.length; i++) {
-            if (newPath[i] !== correctPath[i]) {
-                isCorrectSoFar = false;
-                break;
+            // Проверяем, завершен ли путь
+            if (nodeId === endNode) {
+                const correctPath = findCorrectPath();
+                const isCorrect = comparePaths(newPath, correctPath);
+                const newScore = isCorrect ? 10 : Math.max(0, 10 - newPath.length + correctPath.length);
+                setScore(newScore);
+                setIsCompleted(true);
+                onScoreUpdate(newScore);
             }
         }
-
-        if (!isCorrectSoFar) {
-            // Если путь неверный, завершаем задание
-            setIsCompleted(true);
-            onScoreUpdate(score);
-            return;
-        }
-
-        // Если дошли до конечной вершины по правильному пути
-        if (id === endNode && newPath.length === correctPath.length) {
-            const newScore = 10; // Максимальный балл за правильное решение
-            setScore(newScore);
-            setIsCompleted(true);
-            onScoreUpdate(newScore);
-            return;
-        }
-
-        // Обновляем текущий счет
-        const newScore = (8 * newPath.length) / correctPath.length;
-        setScore(newScore.toFixed(2));
     };
 
-    const getNodeClasses = (node) => {
-        const classes = [];
-        if (node.id === startNode) classes.push('start');
-        if (node.id === endNode) classes.push('end');
-        if (selectedPath.includes(node.id)) classes.push('selected');
+    function isConnected(node1, node2) {
+        if (!node1 || !node2) return false;
+        return graph.edges.some(edge => 
+            (edge.source === node1 && edge.target === node2) ||
+            (edge.source === node2 && edge.target === node1)
+        );
+    }
+
+    function comparePaths(path1, path2) {
+        if (path1.length !== path2.length) return false;
+        return path1.every((node, index) => node === path2[index]);
+    }
+
+    function getNodeClasses(nodeId) {
+        let classes = ['node'];
+        if (nodeId === startNode) classes.push('start');
+        if (nodeId === endNode) classes.push('end');
+        if (selectedPath.includes(nodeId)) classes.push('selected');
         return classes.join(' ');
-    };
+    }
 
     return (
-        <Paper elevation={3} sx={{ p: 3 }}>
-            <Typography variant="h5" gutterBottom>
-                {task.title}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-                {task.description}
-            </Typography>
+        <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+            <Box sx={{ mb: 2 }}>
+                <Typography variant="h6" gutterBottom>
+                    {task.title}
+                </Typography>
+                <Typography variant="body1">
+                    {task.description}
+                </Typography>
+            </Box>
 
-            <Box sx={{ display: 'flex', gap: 3 }}>
+            <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
                 <Box className="graph-box" sx={{ flex: 2 }}>
                     <svg width={width} height={height}>
                         {/* Рисуем рёбра */}
-                        {graph.links.map((link, index) => (
-                            <g key={index}>
-                                <line
-                                    x1={graph.nodes[link.source].x}
-                                    y1={graph.nodes[link.source].y}
-                                    x2={graph.nodes[link.target].x}
-                                    y2={graph.nodes[link.target].y}
-                                    stroke={selectedPath.includes(link.source) && 
-                                           selectedPath.includes(link.target) &&
-                                           Math.abs(selectedPath.indexOf(link.source) - 
-                                           selectedPath.indexOf(link.target)) === 1 
-                                           ? "#ff9800" : "#666"}
-                                    strokeWidth={2}
-                                />
-                                <text
-                                    x={(graph.nodes[link.source].x + graph.nodes[link.target].x) / 2}
-                                    y={(graph.nodes[link.source].y + graph.nodes[link.target].y) / 2 - 5}
-                                    fontSize="14"
-                                    fill="black"
-                                    textAnchor="middle"
-                                >
-                                    {link.weight}
-                                </text>
-                            </g>
-                        ))}
+                        {graph.edges.map((edge, index) => {
+                            const sourceNode = graph.nodes.find(n => n.id === edge.source);
+                            const targetNode = graph.nodes.find(n => n.id === edge.target);
+                            
+                            if (!sourceNode || !targetNode) return null;
+                            
+                            return (
+                                <g key={`edge-${index}`}>
+                                    <line
+                                        x1={sourceNode.x}
+                                        y1={sourceNode.y}
+                                        x2={targetNode.x}
+                                        y2={targetNode.y}
+                                        stroke={selectedPath.includes(edge.source) && 
+                                               selectedPath.includes(edge.target) ? '#ff9800' : '#666'}
+                                        strokeWidth="2"
+                                    />
+                                    {edge.weight && (
+                                        <text
+                                            x={(sourceNode.x + targetNode.x) / 2}
+                                            y={(sourceNode.y + targetNode.y) / 2}
+                                            dy="-5"
+                                            textAnchor="middle"
+                                            fill="#666"
+                                        >
+                                            {edge.weight}
+                                        </text>
+                                    )}
+                                </g>
+                            );
+                        })}
                         
                         {/* Рисуем вершины */}
                         {graph.nodes.map((node) => (
-                            <g key={node.id}>
+                            <g key={node.id} onClick={() => handleClick(node.id)}>
                                 <circle
                                     cx={node.x}
                                     cy={node.y}
-                                    r={20}
-                                    onClick={() => handleClick(node.id)}
-                                    className={getNodeClasses(node)}
-                                    fill={
-                                        node.id === startNode ? "#4caf50" :
-                                        node.id === endNode ? "#f44336" :
-                                        selectedPath.includes(node.id) ? "#ff9800" : "#90caf9"
-                                    }
-                                    stroke="black"
-                                    strokeWidth={2}
-                                    style={{ cursor: 'pointer' }}
+                                    r="20"
+                                    className={getNodeClasses(node.id)}
+                                    fill={node.id === startNode ? '#4caf50' : 
+                                          node.id === endNode ? '#f44336' : '#fff'}
+                                    stroke="#666"
+                                    strokeWidth="2"
                                 />
                                 <text
                                     x={node.x}
                                     y={node.y}
+                                    dy="6"
                                     textAnchor="middle"
-                                    dy={5}
-                                    fontSize="14"
-                                    fill="white"
+                                    fill="#000"
                                 >
-                                    {node.id}
+                                    {node.label}
                                 </text>
                             </g>
                         ))}
