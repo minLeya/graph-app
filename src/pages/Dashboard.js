@@ -1,37 +1,37 @@
 import React from 'react';
-import { Container, Typography, Grid, Card, CardContent, CardHeader, CardActionArea, AppBar, Toolbar, IconButton } from '@mui/material';
+import { Container, Typography, Card, CardContent, CardHeader, CardActionArea, AppBar, Toolbar, IconButton, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const testCards = [
   {
     title: 'Поиск пути с наименьшим числом рёбер',
     description: 'Задача состоит в том, чтобы найти путь между двумя вершинами, используя как можно меньше рёбер, не учитывая их длину.',
-    path: '/test1'
+    path: '/topic/1/tests'
   },
   {
     title: 'Поиск кратчайшего пути',
     description: 'Задача — найти кратчайший путь между двумя вершинами, учитывая длину (вес) рёбер на пути.',
-    path: '/test2'
+    path: '/topic/2/tests'
   },
   {
     title: 'Задача поиска самого длинного пути',
     description: 'Задача заключается в поиске пути с максимальной длиной (весом), проходящего между двумя вершинами.',
-    path: '/test3'
+    path: '/topic/3/tests'
   },
   {
     title: 'Минимальное покрывающее дерево',
     description: 'Задача — построить дерево, соединяющее все вершины графа с минимальными затратами, чтобы не было циклов.',
-    path: '/test4'
+    path: '/topic/4/tests'
   },
   {
     title: 'Реберная раскраска графа',
     description: 'Задача — раскрасить рёбра графа, чтобы рёбра, встречающиеся в одной вершине, не имели одинаковый цвет.',
-    path: '/test5'
+    path: '/topic/5/tests'
   },
   {
     title: 'Вершинная раскраска графа',
     description: 'Задача — раскрасить вершины графа, чтобы никакие две соседние вершины не имели одинакового цвета.',
-    path: '/test6'
+    path: '/topic/6/tests'
   }
 ];
 
@@ -70,25 +70,58 @@ const Dashboard = () => {
       <Typography variant="h4" gutterBottom align="center" sx={{ mt: 4, mb: 4 }}>
         GraphSolver
       </Typography>
-      <Grid container spacing={3}>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr',
+            sm: 'repeat(2, 1fr)',
+            md: 'repeat(3, 1fr)'
+          },
+          gap: 3
+        }}
+      >
         {testCards.map((test, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-              <CardActionArea component={Link} to={test.path} sx={{ textDecoration: 'none', color: 'inherit' }}>
-                <CardHeader
-                  title={test.title}
-                  sx={{ flexShrink: 0, minHeight: '64px' }}
-                />
-                <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', paddingTop: '16px' }}>
-                  <Typography variant="body2" color="textSecondary">
-                    {test.description}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
+          <Card 
+            key={index} 
+            sx={{ 
+              height: '100%', 
+              display: 'flex', 
+              flexDirection: 'column' 
+            }}
+          >
+            <CardActionArea 
+              component={Link} 
+              to={test.path} 
+              sx={{ 
+                height: '100%',
+                textDecoration: 'none', 
+                color: 'inherit',
+                '&:hover': {
+                  transform: 'scale(1.02)',
+                  transition: 'transform 0.2s ease-in-out',
+                },
+              }}
+            >
+              <CardHeader
+                title={test.title}
+                sx={{ flexShrink: 0, minHeight: '64px' }}
+              />
+              <CardContent sx={{ 
+                flexGrow: 1, 
+                display: 'flex', 
+                flexDirection: 'column', 
+                justifyContent: 'flex-start', 
+                paddingTop: '16px' 
+              }}>
+                <Typography variant="body2" color="textSecondary">
+                  {test.description}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
         ))}
-      </Grid>
+      </Box>
     </Container>
   );
 };
