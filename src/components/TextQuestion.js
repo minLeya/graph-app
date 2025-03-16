@@ -14,12 +14,10 @@ const TextQuestion = ({ task, onScoreUpdate }) => {
   const [currentScore, setCurrentScore] = useState(null);
 
   const handleAnswerSelect = (index) => {
-    if (selectedAnswer === null) { // Проверяем, что ответ еще не был выбран
-      setSelectedAnswer(index);
-      const score = index === task.correctAnswer ? task.maxScore : 0;
-      setCurrentScore(score);
-      onScoreUpdate(score);
-    }
+    setSelectedAnswer(index);
+    const score = index === task.correctAnswer ? task.maxScore : 0;
+    setCurrentScore(score);
+    onScoreUpdate(score);
   };
 
   return (
@@ -42,7 +40,6 @@ const TextQuestion = ({ task, onScoreUpdate }) => {
               value={index}
               control={<Radio />}
               label={option}
-              disabled={selectedAnswer !== null} // Блокируем выбор после первого ответа
             />
           ))}
         </RadioGroup>
