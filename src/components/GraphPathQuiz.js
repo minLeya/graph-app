@@ -6,7 +6,6 @@ import './GraphPathQuiz.css';
 const GraphPathQuiz = ({ task, onScoreUpdate }) => {
     const width = 600, height = 400;
     const [selectedPath, setSelectedPath] = useState([]);
-    const [score, setScore] = useState(0);
     const [isCompleted, setIsCompleted] = useState(false);
 
     const graph = getGraph(task.graphId);
@@ -14,7 +13,6 @@ const GraphPathQuiz = ({ task, onScoreUpdate }) => {
 
     useEffect(() => {
         setSelectedPath([]);
-        setScore(0);
         setIsCompleted(false);
     }, [task]);
 
@@ -101,23 +99,17 @@ const GraphPathQuiz = ({ task, onScoreUpdate }) => {
     }
 
     const handleClick = (nodeId) => {
-        if (isCompleted) return;
-
         const lastNode = selectedPath[selectedPath.length - 1];
         
-        // Если это первый выбор или узел соединен с последним выбранным
         if (selectedPath.length === 0 || isConnected(lastNode, nodeId)) {
             const newPath = [...selectedPath, nodeId];
             setSelectedPath(newPath);
 
-            // Проверяем, завершен ли путь
             if (nodeId === endNode) {
                 const correctPath = findCorrectPath();
                 const isCorrect = comparePaths(newPath, correctPath);
-                const newScore = isCorrect ? 10 : Math.max(0, 10 - newPath.length + correctPath.length);
-                setScore(newScore);
                 setIsCompleted(true);
-                onScoreUpdate(newScore);
+                onScoreUpdate(isCorrect ? task.maxScore : 0);
             }
         }
     };
@@ -218,12 +210,9 @@ const GraphPathQuiz = ({ task, onScoreUpdate }) => {
                 </Box>
 
                 <Box sx={{ flex: 1 }}>
-                    <Typography variant="h6" gutterBottom>
-                        Текущий балл: {score}
-                    </Typography>
                     <Typography variant="body2">
                         {isCompleted ? 
-                            (score === 10 ? "Задание выполнено верно!" : "Задание завершено с ошибкой") : 
+                            "Путь построен" : 
                             "Выберите вершины в правильном порядке"}
                     </Typography>
                 </Box>
