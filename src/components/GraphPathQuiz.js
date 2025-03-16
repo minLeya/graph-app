@@ -7,6 +7,7 @@ const GraphPathQuiz = ({ task, onScoreUpdate }) => {
     const width = 600, height = 400;
     const [selectedPath, setSelectedPath] = useState([]);
     const [isCompleted, setIsCompleted] = useState(false);
+    const [currentScore, setCurrentScore] = useState(null);
 
     const graph = getGraph(task.graphId);
     const { startNode, endNode } = task;
@@ -14,6 +15,7 @@ const GraphPathQuiz = ({ task, onScoreUpdate }) => {
     useEffect(() => {
         setSelectedPath([]);
         setIsCompleted(false);
+        setCurrentScore(null);
     }, [task]);
 
     if (!graph || !graph.nodes || !graph.edges) {
@@ -107,9 +109,26 @@ const GraphPathQuiz = ({ task, onScoreUpdate }) => {
 
             if (nodeId === endNode) {
                 const correctPath = findCorrectPath();
-                const isCorrect = comparePaths(newPath, correctPath);
                 setIsCompleted(true);
-                onScoreUpdate(isCorrect ? task.maxScore : 0);
+
+                // Подсчитываем количество правильных вершин до первой ошибки
+                let correctCount = 0;
+                for (let i = 0; i < newPath.length; i++) {
+                    if (newPath[i] !== correctPath[i]) {
+                        break;
+                    }
+                    correctCount++;
+                }
+
+                // Вычисляем баллы
+                let score = 0;
+                if (correctCount > 0) {
+                    const pointsPerVertex = task.maxScore / correctPath.length;
+                    score = Math.round(pointsPerVertex * correctCount);
+                }
+
+                setCurrentScore(score);
+                onScoreUpdate(score);
             }
         }
     };
@@ -215,6 +234,14 @@ const GraphPathQuiz = ({ task, onScoreUpdate }) => {
                             "Путь построен" : 
                             "Выберите вершины в правильном порядке"}
                     </Typography>
+                    {/* Временный блок для отображения баллов */}
+                    {currentScore !== null && (
+                        <Box sx={{ mt: 2, p: 1, bgcolor: 'grey.100', borderRadius: 1 }}>
+                            <Typography variant="body2" color="text.secondary">
+                                Баллы за задание: {currentScore} из {task.maxScore}
+                            </Typography>
+                        </Box>
+                    )}
                 </Box>
             </Box>
         </Paper>

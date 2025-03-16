@@ -6,6 +6,7 @@ import PrivateRoute from './components/auth/PrivateRoute';
 import Admin from './components/admin/Admin';
 import Dashboard from './pages/Dashboard';
 import Test from './pages/Test';
+import Results from './pages/Results';
 import AdminPage from './pages/AdminPage';
 import TopicTests from './pages/TopicTests';
 import Layout from './components/layout/Layout';
@@ -81,6 +82,17 @@ function App() {
                         <PrivateRoute>
                             <Layout>
                                 <Test />
+                            </Layout>
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path="/results/:topicId/:testId"
+                    element={
+                        <PrivateRoute>
+                            <Layout>
+                                <Results />
                             </Layout>
                         </PrivateRoute>
                     }

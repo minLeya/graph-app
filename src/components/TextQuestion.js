@@ -6,16 +6,20 @@ import {
   RadioGroup, 
   FormControlLabel, 
   Radio, 
-  Button,
   FormControl
 } from '@mui/material';
 
 const TextQuestion = ({ task, onScoreUpdate }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [currentScore, setCurrentScore] = useState(null);
 
   const handleAnswerSelect = (index) => {
-    setSelectedAnswer(index);
-    onScoreUpdate(index === task.correctAnswer ? task.maxScore : 0);
+    if (selectedAnswer === null) { // Проверяем, что ответ еще не был выбран
+      setSelectedAnswer(index);
+      const score = index === task.correctAnswer ? task.maxScore : 0;
+      setCurrentScore(score);
+      onScoreUpdate(score);
+    }
   };
 
   return (
@@ -38,10 +42,20 @@ const TextQuestion = ({ task, onScoreUpdate }) => {
               value={index}
               control={<Radio />}
               label={option}
+              disabled={selectedAnswer !== null} // Блокируем выбор после первого ответа
             />
           ))}
         </RadioGroup>
       </FormControl>
+
+      {/* Временный блок для отображения баллов */}
+      {currentScore !== null && (
+        <Box sx={{ mt: 2, p: 1, bgcolor: 'grey.100', borderRadius: 1 }}>
+          <Typography variant="body2" color="text.secondary">
+            Баллы за задание: {currentScore} из {task.maxScore}
+          </Typography>
+        </Box>
+      )}
     </Paper>
   );
 };

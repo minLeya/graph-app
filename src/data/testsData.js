@@ -33,7 +33,7 @@ export const testsData = {
                             'Замкнутая последовательность вершин'
                         ],
                         correctAnswer: 1,
-                        maxScore: 5
+                        maxScore: 1
                     },
                     {
                         id: 2,
@@ -43,7 +43,7 @@ export const testsData = {
                         graphId: 'pathFinding.simple1',
                         startNode: '1',
                         endNode: '6',
-                        maxScore: 10
+                        maxScore: 5
                     }
                 ]
             },
@@ -60,7 +60,7 @@ export const testsData = {
                         graphId: 'pathFinding.medium1',
                         startNode: '1',
                         endNode: '8',
-                        maxScore: 15
+                        maxScore: 5
                     },
                     {
                         id: 2,
@@ -70,7 +70,7 @@ export const testsData = {
                         graphId: 'pathFinding.hard1',
                         startNode: '2',
                         endNode: '10',
-                        maxScore: 20
+                        maxScore: 5
                     },
                     {
                         id: 3,
@@ -84,7 +84,7 @@ export const testsData = {
                             'Алгоритм Флойда-Уоршелла'
                         ],
                         correctAnswer: 2,
-                        maxScore: 10
+                        maxScore: 1
                     }
                 ]
             }
@@ -111,7 +111,7 @@ export const testsData = {
                             'Для любых графов, включая графы с отрицательными весами'
                         ],
                         correctAnswer: 1,
-                        maxScore: 5
+                        maxScore: 1
                     },
                     {
                         id: 2,
@@ -121,7 +121,7 @@ export const testsData = {
                         graphId: 'shortestPath.simple1',
                         startNode: '1',
                         endNode: '6',
-                        maxScore: 10
+                        maxScore: 5
                     }
                 ]
             },
@@ -138,7 +138,7 @@ export const testsData = {
                         graphId: 'shortestPath.medium1',
                         startNode: '1',
                         endNode: '8',
-                        maxScore: 15
+                        maxScore: 5
                     },
                     {
                         id: 2,
@@ -148,7 +148,7 @@ export const testsData = {
                         graphId: 'shortestPath.hard1',
                         startNode: '2',
                         endNode: '10',
-                        maxScore: 20
+                        maxScore: 5
                     }
                 ]
             }
@@ -175,7 +175,7 @@ export const testsData = {
                             'Алгоритм может зациклиться'
                         ],
                         correctAnswer: 1,
-                        maxScore: 5
+                        maxScore: 1
                     },
                     {
                         id: 2,
@@ -185,7 +185,7 @@ export const testsData = {
                         graphId: 'longestPath.simple1',
                         startNode: '1',
                         endNode: '6',
-                        maxScore: 10
+                        maxScore: 5
                     }
                 ]
             },
@@ -202,7 +202,7 @@ export const testsData = {
                         graphId: 'longestPath.medium1',
                         startNode: '1',
                         endNode: '8',
-                        maxScore: 15
+                        maxScore: 5
                     },
                     {
                         id: 2,
@@ -212,7 +212,7 @@ export const testsData = {
                         graphId: 'longestPath.hard1',
                         startNode: '2',
                         endNode: '10',
-                        maxScore: 20
+                        maxScore: 5
                     }
                 ]
             }
@@ -239,7 +239,7 @@ export const testsData = {
                             'Полный граф'
                         ],
                         correctAnswer: 1,
-                        maxScore: 5
+                        maxScore: 1
                     },
                     {
                         id: 2,
@@ -247,7 +247,7 @@ export const testsData = {
                         title: 'Построение MST',
                         description: 'Постройте минимальное остовное дерево для графа с 6 вершинами',
                         graphId: 'spanningTree.simple1',
-                        maxScore: 10
+                        maxScore: 5
                     }
                 ]
             },
@@ -262,7 +262,7 @@ export const testsData = {
                         title: 'MST в сложном графе',
                         description: 'Постройте минимальное остовное дерево в графе с 8 вершинами',
                         graphId: 'spanningTree.medium1',
-                        maxScore: 15
+                        maxScore: 5
                     },
                     {
                         id: 2,
@@ -270,7 +270,7 @@ export const testsData = {
                         title: 'Большое MST',
                         description: 'Постройте минимальное остовное дерево в графе с 10 вершинами',
                         graphId: 'spanningTree.hard1',
-                        maxScore: 20
+                        maxScore: 5
                     }
                 ]
             }
@@ -297,7 +297,7 @@ export const testsData = {
                             'Количество различных цветов в графе'
                         ],
                         correctAnswer: 1,
-                        maxScore: 5
+                        maxScore: 1
                     },
                     {
                         id: 2,
@@ -305,7 +305,7 @@ export const testsData = {
                         title: 'Реберная раскраска',
                         description: 'Раскрасьте рёбра графа с 6 вершинами минимальным количеством цветов',
                         graphId: 'coloring.simple1',
-                        maxScore: 10
+                        maxScore: 5
                     }
                 ]
             },
@@ -320,7 +320,7 @@ export const testsData = {
                         title: 'Раскраска среднего графа',
                         description: 'Выполните реберную раскраску графа с 8 вершинами',
                         graphId: 'coloring.medium1',
-                        maxScore: 15
+                        maxScore: 5
                     },
                     {
                         id: 2,
@@ -328,7 +328,7 @@ export const testsData = {
                         title: 'Сложная раскраска',
                         description: 'Раскрасьте рёбра графа с 10 вершинами',
                         graphId: 'coloring.hard1',
-                        maxScore: 20
+                        maxScore: 5
                     }
                 ]
             }
@@ -567,4 +567,23 @@ export const graphsData = {
             ],
         },
     },
+};
+
+// Функция для расчета баллов за интерактивное задание
+export const calculateInteractiveTaskScore = (task, selectedVertices, correctVertices) => {
+    // Проверяем правильность выбранных вершин до первой ошибки
+    let correctCount = 0;
+    for (let i = 0; i < selectedVertices.length; i++) {
+        if (selectedVertices[i] !== correctVertices[i]) {
+            break;
+        }
+        correctCount++;
+    }
+    
+    // Если нет правильных вершин, возвращаем 0
+    if (correctCount === 0) return 0;
+    
+    // Вычисляем баллы: максимальный балл / количество правильных вершин * количество верно отмеченных вершин
+    const pointsPerVertex = task.maxScore / correctVertices.length;
+    return Math.round(pointsPerVertex * correctCount);
 }; 
