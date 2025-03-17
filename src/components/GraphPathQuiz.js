@@ -160,9 +160,6 @@ const GraphPathQuiz = ({ task, onScoreUpdate }) => {
                 <Typography variant="h6" gutterBottom>
                     {task.title}
                 </Typography>
-                <Typography variant="body1">
-                    {task.description}
-                </Typography>
             </Box>
 
             <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>

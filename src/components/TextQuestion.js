@@ -25,9 +25,6 @@ const TextQuestion = ({ task, onScoreUpdate }) => {
       <Typography variant="h6" gutterBottom>
         {task.title}
       </Typography>
-      <Typography variant="body1" sx={{ mb: 2 }}>
-        {task.description}
-      </Typography>
 
       <FormControl component="fieldset">
         <RadioGroup

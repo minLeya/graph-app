@@ -18,14 +18,13 @@ export const testsData = {
         tests: {
             test1: {
                 id: 'test1',
-                title: 'Тест 1: Основы поиска путей',
+                title: 'Тест 1',
                 description: 'Базовые задачи на поиск пути в графе',
                 tasks: [
                     {
                         id: 1,
                         type: TaskType.TEXT_QUESTION,
-                        title: 'Теоретический вопрос',
-                        description: 'Что такое путь в ориентированном графе?',
+                        title: 'Что такое путь в ориентированном графе?',
                         options: [
                             'Последовательность вершин, соединенных ребрами',
                             'Последовательность вершин, соединенных дугами в соответствии с их направлением',
@@ -38,8 +37,7 @@ export const testsData = {
                     {
                         id: 2,
                         type: TaskType.GRAPH_PATH,
-                        title: 'Найдите путь из вершины A в вершину F',
-                        description: 'Найдите любой путь из вершины A в вершину F, проходящий через наименьшее количество рёбер',
+                        title: 'Найдите путь из вершины A в вершину F, проходящий через наименьшее количество рёбер',
                         graphId: 'pathFinding.simple1',
                         startNode: '1',
                         endNode: '6',
@@ -49,14 +47,13 @@ export const testsData = {
             },
             test2: {
                 id: 'test2',
-                title: 'Тест 2: Сложные пути',
+                title: 'Тест 2',
                 description: 'Задачи повышенной сложности на поиск путей',
                 tasks: [
                     {
                         id: 1,
                         type: TaskType.GRAPH_PATH,
-                        title: 'Найдите путь в сложном графе',
-                        description: 'Найдите путь из вершины A в вершину H с наименьшим количеством рёбер',
+                        title: 'Найдите путь из вершины A в вершину H с наименьшим количеством рёбер',
                         graphId: 'pathFinding.medium1',
                         startNode: '1',
                         endNode: '8',
@@ -65,8 +62,7 @@ export const testsData = {
                     {
                         id: 2,
                         type: TaskType.GRAPH_PATH,
-                        title: 'Сложный маршрут',
-                        description: 'Найдите путь из вершины B в вершину J, используя минимальное количество рёбер',
+                        title: 'Найдите путь из вершины B в вершину J, используя минимальное количество рёбер',
                         graphId: 'pathFinding.hard1',
                         startNode: '2',
                         endNode: '10',
@@ -75,8 +71,7 @@ export const testsData = {
                     {
                         id: 3,
                         type: TaskType.TEXT_QUESTION,
-                        title: 'Анализ алгоритма',
-                        description: 'Какой алгоритм лучше всего подходит для поиска пути с наименьшим числом рёбер?',
+                        title: 'Какой алгоритм лучше всего подходит для поиска пути с наименьшим числом рёбер?',
                         options: [
                             'Алгоритм Дейкстры',
                             'Поиск в глубину (DFS)',
@@ -96,14 +91,13 @@ export const testsData = {
         tests: {
             test1: {
                 id: 'test1',
-                title: 'Тест 1: Алгоритм Дейкстры',
+                title: 'Тест 1',
                 description: 'Базовые задачи на поиск кратчайшего пути',
                 tasks: [
                     {
                         id: 1,
                         type: TaskType.TEXT_QUESTION,
-                        title: 'Теория кратчайших путей',
-                        description: 'Для каких графов применим алгоритм Дейкстры?',
+                        title: 'Для каких графов применим алгоритм Дейкстры?',
                         options: [
                             'Только для неориентированных графов',
                             'Для любых графов с неотрицательными весами рёбер',
@@ -116,8 +110,7 @@ export const testsData = {
                     {
                         id: 2,
                         type: TaskType.GRAPH_SHORTEST_PATH,
-                        title: 'Поиск кратчайшего пути',
-                        description: 'Найдите кратчайший путь от вершины A до вершины F',
+                        title: 'Найдите кратчайший путь от вершины A до вершины F',
                         graphId: 'shortestPath.simple1',
                         startNode: '1',
                         endNode: '6',
@@ -127,14 +120,13 @@ export const testsData = {
             },
             test2: {
                 id: 'test2',
-                title: 'Тест 2: Сложные маршруты',
+                title: 'Тест 2',
                 description: 'Задачи повышенной сложности на поиск кратчайшего пути',
                 tasks: [
                     {
                         id: 1,
                         type: TaskType.GRAPH_SHORTEST_PATH,
-                        title: 'Кратчайший путь в сложном графе',
-                        description: 'Найдите кратчайший путь от A до H',
+                        title: 'Найдите кратчайший путь от A до H',
                         graphId: 'shortestPath.medium1',
                         startNode: '1',
                         endNode: '8',
@@ -143,8 +135,7 @@ export const testsData = {
                     {
                         id: 2,
                         type: TaskType.GRAPH_SHORTEST_PATH,
-                        title: 'Сложная маршрутизация',
-                        description: 'Найдите кратчайший путь от B до J',
+                        title: 'Найдите кратчайший путь от B до J',
                         graphId: 'shortestPath.hard1',
                         startNode: '2',
                         endNode: '10',
@@ -160,14 +151,13 @@ export const testsData = {
         tests: {
             test1: {
                 id: 'test1',
-                title: 'Тест 1: Основы поиска длиннейшего пути',
+                title: 'Тест 1',
                 description: 'Базовые задачи на поиск самого длинного пути',
                 tasks: [
                     {
                         id: 1,
                         type: TaskType.TEXT_QUESTION,
-                        title: 'Теория длиннейших путей',
-                        description: 'В чём основная сложность поиска длиннейшего пути в графе?',
+                        title: 'В чём основная сложность поиска длиннейшего пути в графе?',
                         options: [
                             'Алгоритм всегда работает очень медленно',
                             'Задача является NP-полной для общего случая',
@@ -180,8 +170,7 @@ export const testsData = {
                     {
                         id: 2,
                         type: TaskType.GRAPH_LONGEST_PATH,
-                        title: 'Поиск длиннейшего пути',
-                        description: 'Найдите самый длинный путь от A до F',
+                        title: 'Найдите самый длинный путь от A до F',
                         graphId: 'longestPath.simple1',
                         startNode: '1',
                         endNode: '6',
@@ -191,14 +180,13 @@ export const testsData = {
             },
             test2: {
                 id: 'test2',
-                title: 'Тест 2: Сложные задачи',
+                title: 'Тест 2',
                 description: 'Задачи повышенной сложности на поиск длиннейшего пути',
                 tasks: [
                     {
                         id: 1,
                         type: TaskType.GRAPH_LONGEST_PATH,
-                        title: 'Длиннейший путь в сложном графе',
-                        description: 'Найдите самый длинный путь от A до H',
+                        title: 'Найдите самый длинный путь от A до H',
                         graphId: 'longestPath.medium1',
                         startNode: '1',
                         endNode: '8',
@@ -207,8 +195,7 @@ export const testsData = {
                     {
                         id: 2,
                         type: TaskType.GRAPH_LONGEST_PATH,
-                        title: 'Сложный маршрут',
-                        description: 'Найдите самый длинный путь от B до J',
+                        title: 'Найдите самый длинный путь от B до J',
                         graphId: 'longestPath.hard1',
                         startNode: '2',
                         endNode: '10',
@@ -224,14 +211,13 @@ export const testsData = {
         tests: {
             test1: {
                 id: 'test1',
-                title: 'Тест 1: Алгоритм Прима',
+                title: 'Тест 1',
                 description: 'Базовые задачи на построение минимального остовного дерева',
                 tasks: [
                     {
                         id: 1,
                         type: TaskType.TEXT_QUESTION,
-                        title: 'Теория остовных деревьев',
-                        description: 'Что такое остовное дерево графа?',
+                        title: 'Что такое остовное дерево графа?',
                         options: [
                             'Любой связный подграф',
                             'Дерево, содержащее все вершины исходного графа',
@@ -244,8 +230,7 @@ export const testsData = {
                     {
                         id: 2,
                         type: TaskType.GRAPH_SPANNING_TREE,
-                        title: 'Построение MST',
-                        description: 'Постройте минимальное остовное дерево для графа с 6 вершинами',
+                        title: 'Постройте минимальное остовное дерево для графа с 6 вершинами',
                         graphId: 'spanningTree.simple1',
                         maxScore: 5
                     }
@@ -253,22 +238,20 @@ export const testsData = {
             },
             test2: {
                 id: 'test2',
-                title: 'Тест 2: Сложные случаи',
-                description: 'Задачи повышенной сложности на построение MST',
+                title: 'Тест 2',
+                description: 'Задачи повышенной сложности на построение минимального остовного дерева',
                 tasks: [
                     {
                         id: 1,
                         type: TaskType.GRAPH_SPANNING_TREE,
-                        title: 'MST в сложном графе',
-                        description: 'Постройте минимальное остовное дерево в графе с 8 вершинами',
+                        title: 'Постройте минимальное остовное дерево в графе с 8 вершинами',
                         graphId: 'spanningTree.medium1',
                         maxScore: 5
                     },
                     {
                         id: 2,
                         type: TaskType.GRAPH_SPANNING_TREE,
-                        title: 'Большое MST',
-                        description: 'Постройте минимальное остовное дерево в графе с 10 вершинами',
+                        title: 'Постройте минимальное остовное дерево в графе с 10 вершинами',
                         graphId: 'spanningTree.hard1',
                         maxScore: 5
                     }
@@ -282,14 +265,13 @@ export const testsData = {
         tests: {
             test1: {
                 id: 'test1',
-                title: 'Тест 1: Основы реберной раскраски',
+                title: 'Тест 1',
                 description: 'Базовые задачи на реберную раскраску',
                 tasks: [
                     {
                         id: 1,
                         type: TaskType.TEXT_QUESTION,
-                        title: 'Теория реберной раскраски',
-                        description: 'Что такое хроматический индекс графа?',
+                        title: 'Что такое хроматический индекс графа?',
                         options: [
                             'Минимальное число цветов для раскраски вершин',
                             'Минимальное число цветов для раскраски рёбер',
@@ -302,8 +284,7 @@ export const testsData = {
                     {
                         id: 2,
                         type: TaskType.GRAPH_EDGE_COLORING,
-                        title: 'Реберная раскраска',
-                        description: 'Раскрасьте рёбра графа с 6 вершинами минимальным количеством цветов',
+                        title: 'Раскрасьте рёбра графа с 6 вершинами минимальным количеством цветов',
                         graphId: 'coloring.simple1',
                         maxScore: 5
                     }
@@ -311,22 +292,20 @@ export const testsData = {
             },
             test2: {
                 id: 'test2',
-                title: 'Тест 2: Сложные раскраски',
+                title: 'Тест 2',
                 description: 'Задачи повышенной сложности на реберную раскраску',
                 tasks: [
                     {
                         id: 1,
                         type: TaskType.GRAPH_EDGE_COLORING,
-                        title: 'Раскраска среднего графа',
-                        description: 'Выполните реберную раскраску графа с 8 вершинами',
+                        title: 'Выполните реберную раскраску графа с 8 вершинами',
                         graphId: 'coloring.medium1',
                         maxScore: 5
                     },
                     {
                         id: 2,
                         type: TaskType.GRAPH_EDGE_COLORING,
-                        title: 'Сложная раскраска',
-                        description: 'Раскрасьте рёбра графа с 10 вершинами',
+                        title: 'Раскрасьте рёбра графа с 10 вершинами',
                         graphId: 'coloring.hard1',
                         maxScore: 5
                     }
