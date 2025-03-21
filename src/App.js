@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import SignUpIn from './pages/SignUpIn';
 import Profile from './components/profile/Profile';
 import PrivateRoute from './components/auth/PrivateRoute';
-import Admin from './components/admin/Admin';
 import Dashboard from './pages/Dashboard';
 import Test from './pages/Test';
 import Results from './pages/Results';
@@ -30,18 +29,7 @@ function App() {
                     }
                 />
                 
-                {/* Маршруты администратора */}
-                <Route
-                    path="/admin"
-                    element={
-                        <PrivateRoute requireAdmin={true}>
-                            <Layout>
-                                <Admin />
-                            </Layout>
-                        </PrivateRoute>
-                    }
-                />
-
+                {/* Маршрут администратора */}
                 <Route
                     path="/admin-page"
                     element={

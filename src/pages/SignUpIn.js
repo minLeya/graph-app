@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Card, CardContent, TextField, Button } from '@mui/material';
 import { createClient } from '@supabase/supabase-js';
+import { authAPI } from '../data/database';
 
 const supabase = createClient("https://zgwznptlltnofmscznav.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpnd3pucHRsbHRub2Ztc2N6bmF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA4NjE1NjUsImV4cCI6MjA1NjQzNzU2NX0.YwIxpl321rvIDhGBqgX_WlEWW2rrvgLZPRQ-BZWzrFY");
 
@@ -30,7 +31,13 @@ const SignUpIn = () => {
     if (error) {
       setMessage(error.message);
     } else if (data.session) {
-      navigate('/dashboard');
+      // Проверяем, является ли пользователь администратором
+      const isAdmin = await authAPI.isAdmin();
+      if (isAdmin) {
+        navigate('/admin-page');
+      } else {
+        navigate('/dashboard');
+      }
     }
   };
 
@@ -59,6 +66,7 @@ const SignUpIn = () => {
           <Button variant="contained" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleSignIn}>
             Войти
           </Button>
+          {message && <div style={{ marginTop: '1rem', color: 'red' }}>{message}</div>}
         </CardContent>
       </Card>
     </Container>

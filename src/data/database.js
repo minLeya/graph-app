@@ -354,7 +354,7 @@ export const profilesAPI = {
                         )
                     )
                 `)
-                .eq('id', userId)
+                .eq('id_auth', userId)
                 .single();
 
             if (error) throw error;
@@ -383,7 +383,7 @@ export const profilesAPI = {
             const { data, error } = await supabase
                 .from('user_profiles')
                 .update(profile)
-                .eq('user_id', userId)
+                .eq('id_auth', userId)
                 .select()
                 .single();
 
@@ -404,7 +404,7 @@ export const profilesAPI = {
                     total_score: supabase.raw(`total_score + ${additionalScore}`),
                     completed_tasks: supabase.raw('completed_tasks + 1')
                 })
-                .eq('user_id', userId);
+                .eq('id_auth', userId);
 
             if (error) throw error;
         } catch (error) {
@@ -451,17 +451,6 @@ export const authAPI = {
         }
     },
 
-    // Выход из системы
-    signOut: async () => {
-        try {
-            const { error } = await supabase.auth.signOut();
-            if (error) throw error;
-        } catch (error) {
-            console.error('Ошибка при выходе:', error);
-            throw error;
-        }
-    },
-
     // Получить текущего пользователя
     getCurrentUser: async () => {
         try {
@@ -470,27 +459,52 @@ export const authAPI = {
             return user;
         } catch (error) {
             console.error('Ошибка при получении пользователя:', error);
-            throw error;
+            return null;
         }
     },
 
-    // Проверить, является ли пользователь администратором
+    // Проверка на администратора
     isAdmin: async () => {
         try {
             const { data: { user }, error: userError } = await supabase.auth.getUser();
-            if (userError) throw userError;
+            if (userError || !user) {
+                console.log('Пользователь не найден или ошибка:', userError);
+                return false;
+            }
+
+            console.log('ID пользователя:', user.id);
 
             const { data, error } = await supabase
                 .from('user_profiles')
                 .select('is_admin')
-                .eq('id', user.id)
+                .eq('id_auth', user.id)
                 .single();
 
-            if (error) throw error;
-            return data?.is_admin || false;
+            if (error) {
+                console.log('Ошибка при запросе к user_profiles:', error);
+                return false;
+            }
+            if (!data) {
+                console.log('Данные о пользователе не найдены в user_profiles');
+                return false;
+            }
+
+            console.log('Статус администратора:', data.is_admin);
+            return data.is_admin === true;
         } catch (error) {
-            console.error('Ошибка при проверке прав администратора:', error);
+            console.error('Ошибка при проверке статуса администратора:', error);
             return false;
+        }
+    },
+
+    // Выход из системы
+    signOut: async () => {
+        try {
+            const { error } = await supabase.auth.signOut();
+            if (error) throw error;
+        } catch (error) {
+            console.error('Ошибка при выходе:', error);
+            throw error;
         }
     }
 }; 

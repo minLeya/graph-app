@@ -20,7 +20,7 @@ const Header = () => {
   };
 
   const handleLogoClick = () => {
-    navigate('/dashboard');
+    navigate(isAdmin ? '/admin-page' : '/dashboard');
   };
 
   return (

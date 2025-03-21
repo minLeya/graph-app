@@ -31,6 +31,11 @@ const Profile = () => {
                 setProfile(profileData);
                 setStatistics(statsData || []);
                 setIsAdmin(adminStatus);
+
+                if (adminStatus) {
+                    navigate('/admin-page');
+                    return;
+                }
             } catch (error) {
                 console.error('Ошибка при загрузке профиля:', error);
                 setError(error.message);
@@ -77,7 +82,7 @@ const Profile = () => {
                         <div className="flex items-center space-x-4">
                             {isAdmin && (
                                 <button
-                                    onClick={() => navigate('/admin')}
+                                    onClick={() => navigate('/admin-page')}
                                     className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
                                 >
                                     Панель администратора

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Paper, Typography, Box, Button, Divider } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getTestInfo } from '../data/testsData';
+import { authAPI } from '../data/database';
 
 const Results = () => {
   const location = useLocation();
@@ -9,6 +10,15 @@ const Results = () => {
   const { topicId, testId } = useParams();
   const { score, totalTasks, timeSpent } = location.state || {};
   const testInfo = getTestInfo(topicId, testId);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const adminStatus = await authAPI.isAdmin();
+      setIsAdmin(adminStatus);
+    };
+    checkAdmin();
+  }, []);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -17,7 +27,7 @@ const Results = () => {
   };
 
   const handleReturnToDashboard = () => {
-    navigate('/dashboard');
+    navigate(isAdmin ? '/admin-page' : '/dashboard');
   };
 
   if (!location.state) {
